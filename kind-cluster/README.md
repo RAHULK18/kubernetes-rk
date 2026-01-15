@@ -25,3 +25,16 @@ kubectl get pods -n nginx
 create replicasets.yml
 kubectl apply -f replicasets.yml
 kubectl get replicasets -n nginx
+kubectl get pods -n nginx
+kubectl get pods -n nginx -o wide
+kubectl apply -f daemonsets.yml
+kubectl get pods -n nginx -o wide
+kubectl apply -f job.yml
+kubectl get jobs -n nginx
+kubectl get pods -n nginx
+kubectl delete -f daemonsets.yml
+kubectl delete -f job.yml
+kubectl get pods -n nginx
+kubectl logs pod/demo-job-xws6p -n nginx
+kubectl apply -f cronjob.yml
+kubectl get pods -n nginx
