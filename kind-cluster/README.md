@@ -38,3 +38,16 @@ kubectl get pods -n nginx
 kubectl logs pod/demo-job-xws6p -n nginx
 kubectl apply -f cronjob.yml
 kubectl get pods -n nginx
+kubectl apply -f persistentvolume.yml
+kubectl get pv
+kubectl apply -f persistentvolumeclaim.yml
+kubectl get pv
+kubectl apply -f persistentvolume.yml
+kubectl apply -f persistentvolumeclaim.yml
+kubectl get pv -n nginx
+kubectl get pods -n nginx
+kubectl get pods -n nginx -o wide
+kubectl get nodes
+kubectl apply -f service.yml
+kubectl get all -n nginx
+sudo -E kubectl port-forward service/nginx-service -n nginx 81:80 --address=0.0.0.0

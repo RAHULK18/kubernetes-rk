@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: noteapp-deployment
+  namespace: noteapp-namespace
+  labels:
+    app: noteapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: noteapp
+  template:
+    metadata:
+      labels:
+        app: noteapp
+    spec:
+      containers:
+      - name: noteapp
+        image: rahulk18/notes-app-k8s
+        ports:
+        - containerPort: 8000
