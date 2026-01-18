@@ -51,3 +51,18 @@ kubectl get nodes
 kubectl apply -f service.yml
 kubectl get all -n nginx
 sudo -E kubectl port-forward service/nginx-service -n nginx 81:80 --address=0.0.0.0
+#create ingress controller
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/kind/deploy.yaml
+kubectl get pods -n ingress-nginx
+kubectl get pods -n ingress-nginx
+kubectl get ns
+
+
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.11.2/deploy/static/provider/kind/deploy.yaml
+kubectl -n ingress-nginx patch deployment ingress-nginx-controller \
+  --type=json \
+  -p='[{"op":"add","path":"/spec/template/spec/containers/0/args/-","value":"--enable-admission-webhook=false"}]'
+  kubectl rollout restart deployment ingress-nginx-controller -n ingress-nginx
+   kubectl get pods -n ingress-nginx
+
+   kubectl port-forward service/ingress-nginx-controller -n ingress-nginx 8081:80 --address=0.0.0.0
