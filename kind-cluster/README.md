@@ -68,3 +68,26 @@ kubectl apply -f configmap.yml
 kubectl apply -f statefulset.yml
 kubectl apply -f secret.yml
 kubectl get pods -n  mysql
+kubectl taint node rk-cluster-worker2 prod=true:NoSchedule
+kubectl taint node rk-cluster-worker2 prod=true:NoSchedule-
+
+kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/download/v0.5.0/components.yaml
+
+kubectl -n kube-system edit deployment metrics-server
+
+Add the security bypass to deployment under container.args
+- --kubelet-insecure-tls
+- --kubelet-preferred-address-types=InternalIP,Hostname,ExternalIP
+
+kubectl -n kube-system rollout restart deployment metrics-server
+kubectl get pods -n kube-system
+kubectl top nodes
+kubectl top pod -n nginx
+kubectl top pod -n mysql
+#HPA
+kubectl scale deployment apache-deployment -n apache --replicas=3
+kubectl run -it load-generator --image=busybox -n apache -- /bin/sh
+run while true; do wget -q -O- http://apache-service.default.svc.cluster.local; done
+
+Now from other shell
+kubectl get pods -n apache
