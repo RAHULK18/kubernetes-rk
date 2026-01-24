@@ -87,7 +87,19 @@ kubectl top pod -n mysql
 #HPA
 kubectl scale deployment apache-deployment -n apache --replicas=3
 kubectl run -it load-generator --image=busybox -n apache -- /bin/sh
-run while true; do wget -q -O- http://apache-service.default.svc.cluster.local; done
+run - while true; do wget -q -O- http://apache-service.default.svc.cluster.local; done
 
 Now from other shell
 kubectl get pods -n apache
+
+
+cd apache;git clone https://github.com/kubernetes/autoscaler.git
+cd autoscaler/vertical-pod-autoscaler/
+./hack/vpa-up.sh
+kubectl apply -f vpa.yml
+kubectl delete horizontalpodautoscaler.autoscaling/apache-hpa -n apache
+kubectl get vpa -n apache
+kubectl run -it load-generator --image=busybox -n apache -- /bin/sh
+run - while true; do wget -q -O- http://apache-service.apache.svc.cluster.local; done
+
+kubectl top pod -n apache
