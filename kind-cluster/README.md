@@ -103,3 +103,22 @@ kubectl run -it load-generator --image=busybox -n apache -- /bin/sh
 run - while true; do wget -q -O- http://apache-service.apache.svc.cluster.local; done
 
 kubectl top pod -n apache
+
+RBAC
+kubectl delete -f .
+kubectl auth whoami
+kubectl auth can-i get pods
+kubectl apply -f namespace.yml
+kubectl auth can-i get pods -n apache
+kubectl get role -n apache
+
+kubectl apply -f role.yml
+kubectl get role -n apache
+kubectl apply -f service-account.yml
+kubectl get serviceaccount -n apache
+kubectl apply -f rolebinding.yml
+kubectl get rolebinding -n apache
+kubectl get sa apache-user -n apache
+kubectl auth can-i get pods \
+  --as=system:serviceaccount:apache:apache-user \
+  -n apache
